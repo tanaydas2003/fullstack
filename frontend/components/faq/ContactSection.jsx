@@ -1,9 +1,14 @@
-import React from 'react';
-import { Box, Container, Grid, Typography, Link } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Container, Grid, Typography, Link, Modal, Button } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
-
+import HubSpotForm from '../HubSpotForm'; // Import the HubSpot form component
 const ContactSection = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Box sx={{ width: '100%', bgcolor: 'white', py: 8 }}>
       <Container maxWidth="lg">
@@ -14,12 +19,12 @@ const ContactSection = () => {
               <Typography variant="subtitle1" sx={{ display: 'block', color: '#333', fontWeight: 'bold', mb: 1 }}>
                 Need more help?
               </Typography>
-              <Typography variant="body1" sx={{ display: 'block', color: '#555', mb: 1 }}>
-                Get in touch with us, support is provided daily{' '}
-                <Link href="#" sx={{ color: 'primary.main', fontWeight: 'bold', textDecoration: 'none' }}>
-                  contact us
-                </Link>
-              </Typography>
+              <Button 
+                onClick={handleOpen} 
+                variant="contained" 
+                sx={{ color: 'white', fontWeight: 'bold', textDecoration: 'none', backgroundColor: 'primary.main' }}>
+                Contact Us
+              </Button>
             </Box>
           </Grid>
           <Grid item xs={12} md={6} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -38,6 +43,33 @@ const ContactSection = () => {
           </Grid>
         </Grid>
       </Container>
+
+      {/* Modal to display the HubSpot form */}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="contact-form-modal"
+        aria-describedby="contact-form-modal-description"
+      >
+        <Box 
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            border: '2px solid #000',
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="contact-form-modal" variant="h6" component="h2" sx={{ mb: 2 }}>
+            Contact Us
+          </Typography>
+          <HubSpotForm /> {/* Embed the HubSpot form here */}
+        </Box>
+      </Modal>
     </Box>
   );
 };
