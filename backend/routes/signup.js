@@ -78,14 +78,14 @@ module.exports = (pool) => {
           );
         } else if (userType === 'organization') {
           const newOrgUser = await pool.query(
-            'INSERT INTO organization_users (email, password) VALUES ($1, $2) RETURNING user_id',
+            'INSERT INTO organization_users (email, password) VALUES ($1, $2) RETURNING id',
             [email, hashedPassword]
           );
-          const userId = newOrgUser.rows[0].user_id;
+          const userId = newOrgUser.rows[0].id;
           newUser = await pool.query(
-            `INSERT INTO organizations (organization_id, user_id, org_name, admin_full_name, phone_no, org_website) 
+            `INSERT INTO organizations (organization_id, id, org_name, admin_full_name, phone_no, org_website) 
              VALUES (uuid_generate_v4(), $1, $2, $3, $4, $5) 
-             RETURNING organization_id, user_id, org_name, admin_full_name, phone_no, org_website`,
+             RETURNING organization_id, id, org_name, admin_full_name, phone_no, org_website`,
             [userId, orgName, adminFullName, phoneNo, orgWebsite]
           );
         } else {
