@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, IconButton, Typography, Avatar, Drawer, List, ListItem, ListItemText, Divider, Box, TextField, Button, Grid, Hidden, LinearProgress } from '@mui/material';
-import { PhotoCamera, Menu as MenuIcon } from '@mui/icons-material';
+import { PhotoCamera, Menu as MenuIcon, Facebook as FacebookIcon } from '@mui/icons-material'; // Added Facebook Icon
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 
 const drawerWidth = 240;
@@ -12,6 +12,7 @@ export default function ProfilePage() {
   const [profilePic, setProfilePic] = useState(''); // Empty avatar initially
   const [mobileOpen, setMobileOpen] = useState(false); // For controlling mobile drawer
   const [userType, setUserType] = useState(''); // Empty user type initially
+  const [isFacebookLinked, setIsFacebookLinked] = useState(false); // Check if Facebook is linked
   const [formData, setFormData] = useState({
     email: '',
     fullName: '',
@@ -105,6 +106,11 @@ export default function ProfilePage() {
     }
   };
 
+  // Function to handle Facebook account linking
+  const handleLinkFacebook = () => {
+    window.location.href = 'http://localhost:3000/auth/facebook'; // Redirect to your backend route
+  };
+
   const drawerContent = (
     <Box>
       {/* Profile Section */}
@@ -149,6 +155,21 @@ export default function ProfilePage() {
 
         <ListItem button>
           <ListItemText primary="View Public Profile" />
+        </ListItem>
+
+        <Divider />
+
+        {/* Facebook Linking Section */}
+        <ListItem>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<FacebookIcon />} // Facebook Icon added
+            onClick={handleLinkFacebook}
+            sx={{ mt: 2 }}
+          >
+            {isFacebookLinked ? 'Facebook Linked' : 'Link Facebook Account'}
+          </Button>
         </ListItem>
       </List>
     </Box>
